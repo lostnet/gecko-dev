@@ -2,6 +2,10 @@ name: MSBuild
 
 on: [push]
 
+defaults:
+  run:
+    shell: wsl-bash {0}
+
 env:
   TESTVAR: . 
 
