@@ -1,0 +1,55 @@
+name: MSBuild
+
+on: [push]
+
+env:
+  # Path to the solution file relative to the root of the project.
+  SOLUTION_FILE_PATH: .
+
+  # Configuration type to build.
+  # You can convert this to a build matrix if you need coverage of multiple configuration types.
+  # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+  BUILD_CONFIGURATION: Release
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Restore NuGet packages
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+
+
+    - name: mozbuilder
+      run: |
+          wget -q https://ftp.mozilla.org/pub/mozilla/libraries/win32/MozillaBuildSetup-3.4.exe
+          
+    - name: mozbuilder install    
+      shell: cmd
+      run: .\MozillaBuildSetup-3.4.exe /S
+      
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+      with:
+        limit-access-to-actor: true
+          
+    - name: moz-compile ubu setup
+      run: |
+          mkdir moz-js
+          export PYTHON="/mnt/c/Program\ Files\Python\ 3.7\python3.exe"
+          export M4=m4
+          export AWK=awk
+          export AC_MACRODIR=/mnt/c/Relax/firefox-91.3.0/build/autoconf/
+          export CC_TYPE=clang
+          export CC="/mnt/c/Program\ Files/LLVM/bin/clang.exe"
+          export CLANG_CC="/mnt/c/Program\ Files/LLVM/bin/clang.exe"
+          export PATH="/mnt/c/Program\ Files/LLVM/bin:$PATH"
+          export TMPDIR="."
+          export OS_ARCH="WINNT"          
+          cd js/src
+          sh ../../build/autoconf/autoconf.sh --localdir=$PWD configure.in > configure
+          chmod +x configure
+          mkdir _build    
