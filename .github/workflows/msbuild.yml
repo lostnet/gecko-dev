@@ -10,20 +10,21 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
 
-    - name: mozbuilder
-      run: |
-          wget -q https://ftp.mozilla.org/pub/mozilla/libraries/win32/MozillaBuildSetup-3.4.exe
-          
-    - name: mozbuilder install    
-      shell: cmd
-      run: .\MozillaBuildSetup-3.4.exe /S
-      
     - name: Setup tmate session
       uses: mxschmitt/action-tmate@v3
       with:
         limit-access-to-actor: true
+
+    - name: mozbuilder
+      run: |
+          wget.exe -q https://ftp.mozilla.org/pub/mozilla/libraries/win32/MozillaBuildSetup-3.4.exe
+          
+    - name: mozbuilder install    
+      shell: cmd
+      run: .\MozillaBuildSetup-3.4.exe /S
+
+    - uses: actions/checkout@v2
           
     - name: moz-compile ubu setup
       run: |
