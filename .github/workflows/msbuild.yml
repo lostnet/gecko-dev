@@ -76,7 +76,7 @@ jobs:
       run: |
           mkdir moz-js
           export PYTHON="/mnt/c/Program\ Files\Python\ 3.7\python3.exe"
-          export AC_MACRODIR=${{ github.workspace }}/build/autoconf/          
+          export AC_MACRODIR=`pwd`/build/autoconf/          
           export CC_TYPE=clang
           export CC="/mnt/c/Program\ Files/LLVM/bin/clang.exe"
           export CLANG_CC="/mnt/c/Program\ Files/LLVM/bin/clang.exe"
