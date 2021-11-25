@@ -7,7 +7,10 @@ defaults:
     shell: wsl-bash {0}
 
 env:
-  TESTVAR: . 
+  M4: m4
+  AWK: awk
+  MOZTOOLS_PATH: 'C:\mozilla-build\msys\bin;C:\mozilla-build\bin'
+  AUTOCONF: "C:/mozilla-build/msys/local/bin/autoconf-2.13"
 
 jobs:
   build:
@@ -15,11 +18,11 @@ jobs:
 
     steps:
 
-    - name: mozbuilder install    
-      shell: cmd
-      run: | 
-        wget.exe -q https://ftp.mozilla.org/pub/mozilla/libraries/win32/MozillaBuildSetup-3.4.exe
-        .\MozillaBuildSetup-3.4.exe /S
+    - name: Install deps on windows
+      shell: powershell
+      run: |
+        Start-BitsTransfer -Source https://ftp.mozilla.org/pub/mozilla/libraries/win32/MozillaBuildSetup-Latest.exe -Destination ./MozillaBuildSetup.exe
+        .\MozillaBuildSetup.exe /S | Out-Null
 
     - uses: actions/checkout@v2
           
@@ -27,8 +30,6 @@ jobs:
       run: |
           mkdir moz-js
           export PYTHON="/mnt/c/Program\ Files\Python\ 3.7\python3.exe"
-          export M4=m4
-          export AWK=awk
           export AC_MACRODIR=/mnt/c/Relax/firefox-91.3.0/build/autoconf/
           export CC_TYPE=clang
           export CC="/mnt/c/Program\ Files/LLVM/bin/clang.exe"
