@@ -4,7 +4,7 @@ on: [push]
 
 defaults:
   run:
-    shell: wsl-bash {0}
+    shell: bash
 
 env:
   M4: m4
@@ -34,7 +34,7 @@ jobs:
           export CC_TYPE=clang
           export CC="/mnt/c/Program\ Files/LLVM/bin/clang.exe"
           export CLANG_CC="/mnt/c/Program\ Files/LLVM/bin/clang.exe"
-          export PATH="/mnt/c/Program\ Files/LLVM/bin:$PATH"
+          export PATH="/mnt/c/Program\ Files/LLVM/bin:$MOZTOOLS_PATH:$PATH"
           export TMPDIR="."
           export OS_ARCH="WINNT"          
           cd js/src
