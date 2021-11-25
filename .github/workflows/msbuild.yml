@@ -17,11 +17,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-
-    - uses: Vampire/setup-wsl@v1
-      with:
-        distribution: Ubuntu-20.04
-        
+    
     - name: more ubu stuff
       run: apt install -y m4
         
