@@ -36,7 +36,7 @@ jobs:
           export AWK=`which awk`
           env
           echo path $PATH
-          export PATH="/mnt/c/Program\ Files/LLVM/bin:${MOZTOOLS_PATH}:$PATH"
+          export PATH="/mnt/c/Program\ Files/LLVM/bin:$MOZTOOLS_PATH:$PATH"
           echo path $PATH
         
     - name: more ubu stuff
@@ -84,10 +84,10 @@ jobs:
           export AWK=awk
           export MOZTOOLS_PATH= 'C:\mozilla-build\msys\bin;C:\mozilla-build\bin'
           export AUTOCONF= "C:/mozilla-build/msys/local/bin/autoconf-2.13"
+          export PATH="/mnt/c/Program\ Files/LLVM/bin:$MOZTOOLS_PATH:$PATH"
           env
-          export M4=`which m4`
-          export AWK=`which awk`
-          env
+          echo got `which m4`
+          echo got `which awk`
           cd js/src
           sh ../../build/autoconf/autoconf.sh --localdir=$PWD configure.in > configure
           chmod +x configure
