@@ -18,6 +18,27 @@ jobs:
 
     steps:
 
+    - uses: Vampire/setup-wsl@v1
+      with:
+        distribution: Ubuntu-20.04
+        
+    - name: find m4
+      run: |
+          mkdir moz-js
+          export PYTHON="/mnt/c/Program\ Files\Python\ 3.7\python3.exe"
+          export AC_MACRODIR=/mnt/c/Relax/firefox-91.3.0/build/autoconf/
+          export CC_TYPE=clang
+          export CC="/mnt/c/Program\ Files/LLVM/bin/clang.exe"
+          export CLANG_CC="/mnt/c/Program\ Files/LLVM/bin/clang.exe"
+          export PATH="/mnt/c/Program\ Files/LLVM/bin:$MOZTOOLS_PATH:$PATH"
+          export TMPDIR="."
+          export OS_ARCH="WINNT"
+          echo envs $M4
+          export M4=`which m4`
+          echo paths $M4
+          export AWK=`which awk`
+          env
+
     - name: Install deps on windows
       shell: powershell
       run: |
