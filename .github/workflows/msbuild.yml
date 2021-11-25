@@ -74,7 +74,6 @@ jobs:
     - name: moz-compile automake
       continue-on-error: true
       run: |
-          mkdir moz-js
           export PYTHON="/mnt/c/Program\ Files\Python\ 3.7\python3.exe"
           export AC_MACRODIR=`pwd`/build/autoconf/          
           export CC_TYPE=clang
@@ -96,6 +95,7 @@ jobs:
     - name: moz-compile setup
       continue-on-error: true
       run: |
+          mkdir moz-js
           cd js/src
           chmod +x configure
           mkdir _build
@@ -105,7 +105,6 @@ jobs:
     - name: moz-compile configure
       continue-on-error: true
       run: |
-          mkdir moz-js
           export PYTHON="/mnt/c/Program\ Files\Python\ 3.7\python3.exe"
           export AC_MACRODIR=`pwd`/build/autoconf/          
           export CC_TYPE=clang
