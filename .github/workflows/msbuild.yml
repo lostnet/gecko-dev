@@ -71,7 +71,8 @@ jobs:
 
     - uses: actions/checkout@v2
           
-    - name: moz-compile ubu setup
+    - name: moz-compile automake
+      continue-on-error: true
       run: |
           mkdir moz-js
           export PYTHON="/mnt/c/Program\ Files\Python\ 3.7\python3.exe"
@@ -91,6 +92,11 @@ jobs:
           echo got `which awk`
           cd js/src
           sh ../../build/autoconf/autoconf.sh --localdir=$PWD configure.in > configure
+          
+    - name: moz-compile setup
+      continue-on-error: true
+      run: |
+          cd js/src
           chmod +x configure
           mkdir _build    
 
