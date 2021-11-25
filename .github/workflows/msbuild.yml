@@ -78,7 +78,7 @@ jobs:
           export PYTHON="/mnt/c/Program\ Files\Python\ 3.7\python3.exe"
           export AC_MACRODIR=`pwd`/build/autoconf/          
           export CC_TYPE=clang
-          export CC="/mnt/c/Program\ Files/LLVM/bin/clang.exe"
+          export CC="/mnt/c/LLVM/bin/clang.exe"
           export CLANG_CC="/mnt/c/Program\ Files/LLVM/bin/clang.exe"
           export TMPDIR="."
           export OS_ARCH="WINNT"
@@ -86,7 +86,7 @@ jobs:
           export AWK=awk
           export MOZTOOLS_PATH='C:\mozilla-build\msys\bin;C:\mozilla-build\bin'
           export AUTOCONF="C:/mozilla-build/msys/local/bin/autoconf-2.13"
-          export PATH="/mnt/c/Program\ Files/LLVM/bin:$PATH"
+          export PATH="/mnt/c/LLVM/bin:$PATH"
           env
           echo got `which m4`
           echo got `which awk`
@@ -98,7 +98,32 @@ jobs:
       run: |
           cd js/src
           chmod +x configure
-          mkdir _build    
+          mkdir _build
+          ln -s /mnt/c/Program\ Files/LLVM /mnt/c/LLVM
+
+      
+    - name: moz-compile configure
+      continue-on-error: true
+      run: |
+          mkdir moz-js
+          export PYTHON="/mnt/c/Program\ Files\Python\ 3.7\python3.exe"
+          export AC_MACRODIR=`pwd`/build/autoconf/          
+          export CC_TYPE=clang
+          export CC="/mnt/c/LLVM/bin/clang.exe"
+          export CLANG_CC="/mnt/c/Program\ Files/LLVM/bin/clang.exe"
+          export TMPDIR="."
+          export OS_ARCH="WINNT"
+          export M4=m4
+          export AWK=awk
+          export MOZTOOLS_PATH='C:\mozilla-build\msys\bin;C:\mozilla-build\bin'
+          export AUTOCONF="C:/mozilla-build/msys/local/bin/autoconf-2.13"
+          export PATH="/mnt/c/LLVM/bin:$PATH"
+          env
+          echo got `which m4`
+          echo got `which awk`
+          cd js/src/_build
+          sh ../configure --disable-ctypes --disable-jit --disable-jemalloc --enable-optimize --enable-hardening --with-intl-api --build-backends=RecursiveMake --with-system-icu --disable-debug --enable-gczeal --prefix=/mnt/c/Relax/vcpkg/installed/x64-windows
+
 
 
     - name: Setup tmate session
