@@ -52,13 +52,16 @@ jobs:
           export OS_ARCH="WINNT"
           export M4=m4
           export AWK=awk
-          export MOZTOOLS_PATH= 'C:\mozilla-build\msys\bin;C:\mozilla-build\bin'
-          export AUTOCONF= "C:/mozilla-build/msys/local/bin/autoconf-2.13"
+          export MOZTOOLS_PATH='C:\mozilla-build\msys\bin;C:\mozilla-build\bin'
+          export AUTOCONF="C:/mozilla-build/msys/local/bin/autoconf-2.13"
           echo envs $M4
           export M4=`which m4`
           echo paths $M4
           export AWK=`which awk`
           env
+          echo path $PATH
+          export PATH="/mnt/c/Program\ Files/LLVM/bin:$MOZTOOLS_PATH:$PATH"
+          echo path $PATH
 
     - name: Install deps on windows
       shell: powershell
