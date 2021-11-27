@@ -124,7 +124,7 @@ jobs:
           sh ../configure --disable-ctypes --disable-jit --disable-jemalloc --enable-optimize --enable-hardening --with-intl-api --build-backends=RecursiveMake --with-system-icu --disable-debug --enable-gczeal --prefix=/mnt/c/Relax/vcpkg/installed/x64-windows
 
     - name: conf mozjs
-      working-directory: gecko-dev\js\src\build_OPT.OBJ
+      working-directory: js\src\_build
       shell: python
       env:
         SRCDIR: ${ github.workspace}\gecko-dev\js\src
