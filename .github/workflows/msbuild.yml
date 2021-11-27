@@ -16,6 +16,14 @@ jobs:
       with:
         distribution: Ubuntu-20.04
 
+    - name: Install vcpkg dependencies
+      shell: pwsh
+      run: |
+        Install-Module VSSetup -Scope CurrentUser -Force
+        vcpkg.exe install icu openssl
+        vcpkg.exe integrate install
+        
+
     - name: find m4
       run: |
           export PYTHON="/mnt/c/Program\ Files\Python\ 3.7\python3.exe"
@@ -39,7 +47,7 @@ jobs:
           echo path $PATH
         
     - name: more ubu stuff
-      run: apt install -y m4
+      run: apt install -y m4 wget
         
     - name: find m4
       run: |
@@ -101,35 +109,13 @@ jobs:
           mkdir _build
           ln -s /mnt/c/Program\ Files/LLVM /mnt/c/LLVM
 
-      
-    - name: moz-compile configure
-      continue-on-error: true
-      run: |
-          export PYTHON="/mnt/c/Program\ Files\Python\ 3.7\python3.exe"
-          export AC_MACRODIR=`pwd`/build/autoconf/          
-          export CC_TYPE=clang
-          export CC="/mnt/c/LLVM/bin/clang.exe"
-          export CLANG_CC="/mnt/c/Program\ Files/LLVM/bin/clang.exe"
-          export TMPDIR="."
-          export OS_ARCH="WINNT"
-          export M4=m4
-          export AWK=awk
-          export MOZTOOLS_PATH='C:\mozilla-build\msys\bin;C:\mozilla-build\bin'
-          export AUTOCONF="C:/mozilla-build/msys/local/bin/autoconf-2.13"
-          export PATH="/mnt/c/LLVM/bin:$PATH"
-          env
-          echo got `which m4`
-          echo got `which awk`
-          cd js/src/_build
-          sh ../configure --disable-ctypes --disable-jit --disable-jemalloc --enable-optimize --enable-hardening --with-intl-api --build-backends=RecursiveMake --with-system-icu --disable-debug --enable-gczeal --prefix=/mnt/c/Relax/vcpkg/installed/x64-windows
-
     - name: conf mozjs
       working-directory: js\src\_build
       shell: python
       env:
-        SRCDIR: ${ github.workspace}\gecko-dev\js\src
-        OLD_CONFIGURE: ${ github.workspace }\gecko-dev\js\src\old-configure
-        TOPSRCDIR: ${ github.workspace }\gecko-dev       
+        SRCDIR: ${ github.workspace}\js\src
+        OLD_CONFIGURE: ${ github.workspace }\js\src\old-configure
+        TOPSRCDIR: ${ github.workspace }       
         CC_TYPE: clang
         CC: "C:\\LLVM\\bin\\clang.exe"
         CLANG_CC: "C:\\Program\ Files\\LLVM\\bin\\clang.exe"
