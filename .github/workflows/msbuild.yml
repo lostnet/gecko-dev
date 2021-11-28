@@ -71,6 +71,9 @@ jobs:
           export PATH="/mnt/c/Program\ Files/LLVM/bin:$MOZTOOLS_PATH:$PATH"
           echo path $PATH
 
+    - name: choco
+      run: choco install visualstudio2017community pkgconfiglite
+
     - name: Install deps on windows
       shell: powershell
       run: |
@@ -115,20 +118,23 @@ jobs:
       env:
         SRCDIR: ${ github.workspace}\js\src
         OLD_CONFIGURE: ${ github.workspace }\js\src\old-configure
-        TOPSRCDIR: ${ github.workspace }       
-        CC_TYPE: clang
-        CC: "C:\\LLVM\\bin\\clang.exe"
-        CLANG_CC: "C:\\Program\ Files\\LLVM\\bin\\clang.exe"
+        TOPSRCDIR: ${ github.workspace }
         M4: m4
         AWK: awk
         MOZTOOLS_PATH: 'C:\mozilla-build\msys\bin;C:\mozilla-build\bin'
-        AUTOCONF: "C:/mozilla-build/msys/local/bin/autoconf-2.13"        
+        AUTOCONF: "C:/mozilla-build/msys/local/bin/autoconf-2.13"
+        LIB: "C:\\vcpkg\\installed\\x64-windows\\lib"
+        INCLUDE: "C:\\vcpkg\\installed\\x64-windows\\include"
+        LIBPATH: "C:\\vcpkg\\installed\\x64-windows\\lib"
+        PKG_CONFIG_PATH: "C:\\vcpkg\\installed\\x64-windows\\lib\\pkgconfig"
       run: |
         import subprocess
         import os
         env = os.environ.copy()
         env['PATH']='C:\\LLVM\\bin;'+env['PATH']
-        subprocess.run(["python.EXE", "../../../configure.py", "--enable-project=js", "--disable-ctypes", "--disable-jit", "--disable-jemalloc", "--enable-optimize", "--enable-hardening", "--with-intl-api", "--build-backends=RecursiveMake", "--with-visual-studio-version=2017", "--with-system-icu", "--disable-debug", "--enable-gczeal", "--target=x86_64-pc-mingw32", "--host=x86_64-pc-mingw32", "--prefix=/c/relax/vcpkg/installed/x64-windows"], env=env)
+        subprocess.run(["python.EXE", "../../../configure.py", "--enable-project=js", "--disable-ctypes", "--disable-jit", "--disable-jemalloc", "--enable-optimize", "--enable-hardening", "--with-intl-api", "--build-backends=Recu
+        CC: "C:\\LLVM\\bin\\clang.exe"
+        CLANG_CC: "C:\\Program\ Files\\LLVM\\bin\\clang.exe"rsiveMake", "--with-visual-studio-version=2017", "--with-system-icu", "--disable-debug", "--enable-gczeal", "--target=x86_64-pc-mingw32", "--host=x86_64-pc-mingw32", "--prefix=/c/relax/vcpkg/installed/x64-windows"], env=env)
 
 
     - name: Setup tmate session
