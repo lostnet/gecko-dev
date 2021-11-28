@@ -117,9 +117,9 @@ jobs:
       working-directory: js\src\_build
       shell: python
       env:
-        SRCDIR: ${ github.workspace}\js\src
-        OLD_CONFIGURE: ${ github.workspace }\js\src\old-configure
-        TOPSRCDIR: ${ github.workspace }
+        SRCDIR: ${{ github.workspace}}\js\src
+        OLD_CONFIGURE: ${{ github.workspace }}\js\src\old-configure
+        TOPSRCDIR: ${{ github.workspace }}
         M4: m4
         AWK: awk
         MOZTOOLS_PATH: 'C:\mozilla-build\msys\bin;C:\mozilla-build\bin'
@@ -135,6 +135,25 @@ jobs:
         env['PATH'] = 'C:\\mozilla-build\\bin;C:\\mozilla-build\\msys\\bin;C:\\mozilla-build\\msys\\local\\bin;'+env['PATH']
         subprocess.run(["python.EXE", "../../../configure.py", "--enable-project=js", "--disable-ctypes", "--disable-jit", "--disable-jemalloc", "--enable-optimize", "--enable-hardening", "--with-intl-api", "--build-backends=RecursiveMake", "--with-visual-studio-version=2017", "--with-system-icu", "--disable-debug", "--enable-gczeal", "--target=x86_64-pc-mingw32", "--host=x86_64-pc-mingw32", "--prefix=/c/relax/vcpkg/installed/x64-windows"], env=env)
 
+
+
+    - name: conf mozjs
+      working-directory: js\src\_build
+      shell: powershell
+      env:
+        SRCDIR: ${{ github.workspace}}\js\src
+        OLD_CONFIGURE: ${{ github.workspace }}\js\src\old-configure
+        TOPSRCDIR: ${{ github.workspace }}
+        M4: m4
+        AWK: awk
+        MOZTOOLS_PATH: 'C:\mozilla-build\msys\bin;C:\mozilla-build\bin'
+        AUTOCONF: "C:/mozilla-build/msys/local/bin/autoconf-2.13"
+        LIB: "C:\\vcpkg\\installed\\x64-windows\\lib"
+        INCLUDE: "C:\\vcpkg\\installed\\x64-windows\\include"
+        LIBPATH: "C:\\vcpkg\\installed\\x64-windows\\lib"
+        PKG_CONFIG_PATH: "C:\\vcpkg\\installed\\x64-windows\\lib\\pkgconfig"
+      run: |
+        C:\mozilla-build\bin\mozmake.exe
 
     - name: Setup tmate session
       uses: mxschmitt/action-tmate@v3
