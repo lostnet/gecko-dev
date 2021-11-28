@@ -114,6 +114,7 @@ jobs:
           ln -s /mnt/c/Program\ Files/LLVM /mnt/c/LLVM
 
     - name: conf mozjs
+      continue-on-error: true    
       working-directory: js\src\_build
       shell: python
       env:
@@ -138,6 +139,7 @@ jobs:
 
 
     - name: conf mozjs
+      continue-on-error: true
       working-directory: js\src\_build
       shell: powershell
       env:
