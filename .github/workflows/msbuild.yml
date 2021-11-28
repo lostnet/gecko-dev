@@ -72,6 +72,7 @@ jobs:
           echo path $PATH
 
     - name: choco
+      shell: powershell
       run: choco install visualstudio2017community pkgconfiglite
 
     - name: Install deps on windows
